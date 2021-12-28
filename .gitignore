@@ -6,6 +6,8 @@ bin-release/
 
 # Other files and folders
 .settings/
+AGCD/*.sage.py
+AGCD/*.txt
 
 # Executables
 *.swf
