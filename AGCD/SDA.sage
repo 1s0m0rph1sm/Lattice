@@ -1,9 +1,4 @@
-t = 50
-gamma = 2048
-eta = 1024
-rho = 768
-
-def load_parameter():
+def load_parameters():
     with open('public_key.txt', 'r') as f:
         x = list(map(Integer, f.read().replace("[","").replace("]","").split(",")))
     with open('output.txt', 'r') as f:
@@ -11,7 +6,7 @@ def load_parameter():
 
     return x, ct
 
-def SDA(x):
+def SDA(x, t, gamma, rho, eta):
     M = Matrix(ZZ, t, t)
     M[0, 0] = 2^769
     for i in range(1, t):
@@ -44,6 +39,10 @@ def decryption(ct, p):
     return m
 
 if __name__ == "__main__":
-    x, ct = load_parameter()
-    p = SDA(x)
+    t = 50
+    gamma = 2048
+    eta = 1024
+    rho = 768
+    x, ct = load_parameters()
+    p = SDA(x, t, gamma, rho, eta)
     print(decryption(ct, p))
