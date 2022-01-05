@@ -14,7 +14,8 @@ def OL(x, t, gamma, rho, eta):
         B[i, 0] = x[i + 1]
         B[i, i + 1] = R
     M = B.LLL()
-
+    BB = B*B.T
+    d = BB.determinant()
     
 
 if __name__ == "__main__":
