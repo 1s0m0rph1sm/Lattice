@@ -15,6 +15,10 @@ def SDA(x, t, gamma, rho, eta):
 
     ML = M.LLL()
 
+    d = ML.determinant()
+    assert d == 2^(rho + 1) * x[0]^(t - 1)
+    assert sqrt(t)*2^(gamma - eta + rho + 1) < sqrt(t/(2*pi*e))*d^(1/t)
+
     v = ML[0]
     min = abs(norm(ML[0]) - sqrt(t)*2^(gamma - eta + rho + 1))
     for i in ML:
