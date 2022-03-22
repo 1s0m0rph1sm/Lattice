@@ -1,2 +1,1 @@
-# Homomorphic-Encryption
-AGCD, LWE and RLWE
+# Lattice based Cryptography and Cryptanalysis
