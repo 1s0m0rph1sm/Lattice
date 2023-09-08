@@ -1,29 +1,42 @@
-def make_lattice(n, p, T, A, B):
-    m = [[0 for i in range(n+2)] for j in range(n+2)]
-    for i in range(n):
-        m[i][i] = p
-        m[n][i] = T[i]
-        m[n+1][i] = A[i]
-    
-    m[n][n] = B/p
-    m[n+1][n+1] = B
+# sagemath 9.5
 
-    M = Matrix(ZZ, m)
+from tqdm import tqdm
+
+def make_lattice(n, r, s, h, B, N):
+    M = matrix(QQ, N+2, N+2)
+    M.set_block(0, 0, matrix.identity(N) * n)
+    
+    for i, X in tqdm(enumerate(zip(r,s))):
+        M[N, i] = int(X[0] * pow(X[1], -1, n)) % n
+        
+    for i, X in tqdm(enumerate(zip(h, s))):
+        M[N+1, i] = int(-X[0] * pow(X[1], -1, n)) % n
+
+    M[N, N] = B / n
+    M[N+1, N+1] = B
     return M
 
 
-def solve(n, p, T, A, B):
-    M = make_lattice(n, p, T, A, B)
+def solve(n, r, s, h, B, N):
+    M = make_lattice(n, r, s, h, B, N)
     ML = M.LLL()
 
-    # TODO
+    candidates = []
+    for rows in tqdm(ML):
+        k1 = int(abs(rows[0]))
+        if 0 < k1 < B:
+            candidates.append(k1)
+            
+    return candidates
 
 
 if __name__ == "__main__":
     # parameters
-    n = 0
-    p = 0
-    T = []
-    A = []
-    B = []
-    solve(n, p, T, A, B)
+    n = 0 # order
+    N = 0 # size
+    r = [] # signatures
+    s = [] # 
+    h = [] # msg digest
+    B = 0 # max of the nonce
+
+    candidates = solve(n, r, s, h, B, N)
